@@ -14,7 +14,6 @@
   </head>
 
   <body style="margin: 0; overflow: hidden">
-
     <a-scene
       vr-mode-ui="enabled: false"
       embedded
@@ -26,21 +25,34 @@
         gltf-model="./scene.gltf"
         rotation="0 180 0"
         scale="0.15 0.15 0.15"
-        gps-entity-place="latitude: 25.407594; longitude: 68.262544;"
+        gps-entity-place="latitude: 0; longitude: 0;"
         animation-mixer
       ></a-entity>
     </a-scene>
 
-<!--     <script>
-      let lat = prompt("Enter latitude");
-      if (lat != null) {
-        let lon = prompt("Enter longitude");
+    <script>
+      async function fetchLocation() {
+        try {
+          // Replace with your API endpoint
+          const response = await fetch("http://147.93.63.6/get-location");
+          const data = await response.json();
+
+          if (data.latitude && data.longitude) {
+            const marker = document.getElementById("marker");
+            marker.setAttribute(
+              "gps-entity-place",
+              `latitude: ${data.latitude}; longitude: ${data.longitude};`
+            );
+          } else {
+            console.error("Invalid location data");
+          }
+        } catch (error) {
+          console.error("Error fetching location:", error);
+        }
       }
 
-      // Update the gps-entity-place attribute of the <a-entity>
-      const pokemonEntity = document.getElementById('marker');
-      pokemonEntity.setAttribute('gps-entity-place', `latitude: ${lat}; longitude: ${lon};`);
-
-    </script> -->
+      // Fetch location on page load
+      window.onload = fetchLocation;
+    </script>
   </body>
 </html>
