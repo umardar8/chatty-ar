@@ -31,6 +31,26 @@
       ></a-entity>
     </a-scene>
 
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const latitude = urlParams.get('latitude');
+      const longitude = urlParams.get('longitude');
+
+      if (latitude && longitude) {
+        // Use latitude and longitude to initialize your AR experience
+        console.log("Latitude:", latitude, "Longitude:", longitude);
+        // ... your existing AR.js code to set the location based AR ...
+        // Example (adapt to your AR.js code):
+        const scene = document.querySelector('a-scene'); // Get your A-Frame scene
+        const marker = document.createElement('a-entity'); // Create the marker entity
+        marker.setAttribute('gps-entity-place', { latitude: latitude, longitude: longitude });
+        scene.appendChild(marker);
+      } else {
+        console.error("Latitude and longitude are missing in the URL parameters.");
+        // Handle the error appropriately (e.g., show a message to the user)
+      }
+    </script>
+
 <!--     <script>
       let lat = prompt("Enter latitude");
       if (lat != null) {
